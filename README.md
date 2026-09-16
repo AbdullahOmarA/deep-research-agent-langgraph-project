@@ -127,8 +127,8 @@ uv run jupyter lab research_agent.ipynb
 ## Structure
 
 ```text
-project_starter/
-├── research_agent.ipynb   # the whole project (helpers given, 3 TODOs inside)
+project Files
+├── research_agent.ipynb   # # Main project notebook
 ├── EVALUATION.md          # Grading rubric for the project
 ├── pyproject.toml         # Dependencies (for local runs)
 ├── .env.example           # Environment variable template (local runs)
@@ -144,4 +144,6 @@ Never commit .env because it contains the OpenRouter API key.
 uv sync                                  # install dependencies
 uv run jupyter lab research_agent.ipynb  # open the project
 ```
- Submitted by: Abdullah AlTurki — academy: @SDAIAAcademy
+```markdown
+   Submitted by: <your name> — academy: @SDAIAAcademy
+   ```
