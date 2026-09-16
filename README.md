@@ -126,15 +126,15 @@ uv run jupyter lab research_agent.ipynb
 ## Structure
 
 ```
-
-Project Files/
-├── research_agent.ipynb   # Main project notebook
+project_starter/
+├── research_agent.ipynb   # the whole project (helpers given, 3 TODOs inside)
 ├── EVALUATION.md          # Grading rubric for the project
-├── pyproject.toml         # Dependencies for local runs
-├── .env.example           # Environment variable template
+├── pyproject.toml         # Dependencies (for local runs)
+├── .env.example           # Environment variable template (local runs)
 ├── .gitignore             # Keeps .env and local caches out of git
 └── uv.lock                # Locked dependency versions
 ```
+
 Never commit .env because it contains the OpenRouter API key.
 
 ## Quick reference
