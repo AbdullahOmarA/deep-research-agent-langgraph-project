@@ -107,8 +107,8 @@ The returned result contains the final report and metadata about the pipeline ru
 uv sync
 cp .env.example .env
 uv run jupyter lab research_agent.ipynb
-## Structure
 
+```
 ## Notebook Structure
 
 | Section | Purpose |
