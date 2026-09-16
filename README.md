@@ -122,8 +122,8 @@ uv run jupyter lab research_agent.ipynb
 | Pipeline | LangGraph state, routing, retries, and checkpointing |
 | Checks | Running the pipeline and inspecting the returned results |
 | Challenges | Examples for loop detection and agent memory |
-```
-```
+
+
 ## Structure
 
 ```text
