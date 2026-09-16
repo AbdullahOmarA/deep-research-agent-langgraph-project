@@ -124,15 +124,15 @@ uv run jupyter lab research_agent.ipynb
 | Challenges | Examples for loop detection and agent memory |
 ```
 ## Structure
-```
+
+```text
 Project Files/
 ├── research_agent.ipynb   # Main project notebook
 ├── EVALUATION.md          # Grading rubric for the project
-├── pyproject.toml         # Dependencies (for local runs)
-├── .env.example           # Environment variable template (local runs)
+├── pyproject.toml         # Dependencies for local runs
+├── .env.example           # Environment variable template
 ├── .gitignore             # Keeps .env and local caches out of git
 └── uv.lock                # Locked dependency versions
-```
 Never commit .env because it contains the OpenRouter API key.
 ## Quick reference
 
@@ -140,3 +140,4 @@ Never commit .env because it contains the OpenRouter API key.
 uv sync                                  # install dependencies
 uv run jupyter lab research_agent.ipynb  # open the project
 ```
+ Submitted by: Abdullah AlTurki — academy: @SDAIAAcademy
