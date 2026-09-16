@@ -1,53 +1,137 @@
-# AI Research Agent — Project Starter
+# AI Research Agent
 
-One self-contained notebook: **researcher → analyst → writer**. You build
-the three agents with LangChain 1.x `create_agent` and chain them with
-LangGraph's Graph API (`StateGraph`). Finish three TODOs — write the system
-prompts (TODO #1), build the agents (TODO #2), build the pipeline (TODO #3).
+A multi-agent research system built with LangChain and LangGraph. The project takes a research question, gathers information from web sources, reviews the collected research, and produces a final report based on the available evidence.
 
-## Google Colab (easiest)
+The complete implementation is contained in `research_agent.ipynb`.
 
-1. Open `research_agent.ipynb` in Colab.
-2. Add a secret named `OPENROUTER_API_KEY` (key icon in the left sidebar).
-3. Finish the TODOs, then `Runtime → Run all`.
+## Project Architecture
 
-## On your own machine
+The system is built around three specialized agents:
+
+- **Researcher:** responsible for web search and reading relevant webpages. It collects useful findings, keeps track of supporting sources, and reports disagreements when sources provide different information.
+- **Analyst:** reviews the research notes and evaluates the information collected by the researcher. It looks for key findings, agreements, disagreements, missing information, and unsupported claims.
+- **Writer:** uses the research and analysis to produce the final report in a clear format suitable for someone who is not familiar with the topic.
+
+The agents are connected through a LangGraph `StateGraph`. The workflow can return to the research stage when the analyst identifies an important information gap.
+
+```text
+Research Question
+       |
+       v
+  Researcher
+       |
+       v
+    Analyst
+     /   \
+    /     \
+More      Enough
+Research  Information
+  |           |
+  v           v
+Researcher   Writer
+  |           |
+  +-----> Analyst
+              |
+              v
+         Final Report
+
+
+```
+The research loop has a maximum retry limit, so the system can request additional information without continuing indefinitely.
+
+
+   ## Research Process
+
+The researcher follows a simple source-based workflow:
+
+1. Search for relevant sources.
+2. Select the most useful results.
+3. Read the actual webpages when possible.
+4. Extract the important findings and supporting source information.
+5. Stop once enough relevant information has been collected.
+
+The researcher is also instructed to avoid repeatedly searching for the same information or reading the same webpage multiple times.
+
+For important numerical claims, dates, rankings, targets, investments, and major announcements, the research prompt gives preference to primary or official sources when available.
+
+## Reliability
+
+Several controls were added to make the pipeline more reliable:
+
+- `LoopDetector` monitors repeated researcher tool calls.
+- Stage outputs are checked for stagnation or highly similar responses.
+- A maximum step budget is applied to each agent run.
+- Research retries are limited to two additional attempts.
+- `InMemorySaver` is used as the graph checkpointer.
+- When a loop or stagnant output is detected, a warning is printed instead of silently ignoring it.
+- If the analyst identifies missing information, the graph can route the task back to the researcher rather than producing the final report immediately.
+
+These checks are implemented as part of the pipeline rather than being separate demonstration code.
+
+## Model and Tools
+
+The project uses:
+
+- **LangChain 1.x** for the agents and tool integration.
+- **LangGraph** for the multi-agent workflow and state management.
+- **OpenRouter** for model access.
+- **DeepSeek V4 Flash** as the language model.
+- `search_web` for finding relevant sources.
+- `read_webpage` for reading webpage content.
+
+The provided tracing system also records agent runs, token usage, and OpenRouter cost.
+
+## Testing
+
+The pipeline was tested with different research questions rather than relying on a single example.
+
+The tests included comparison questions as well as current research questions. This was used to verify that the researcher was actually searching for relevant sources, reading webpages, passing the collected information to the analyst, and producing a final report through the complete pipeline.
+
+The pipeline was also tested with different prompts to make sure the workflow was not dependent on one specific question and could complete the research process successfully.
+
+## Running the Project
+
+
+To test another question, change the query passed to `run_pipeline()`:
+
+```python
+pipeline_result = await run_pipeline(
+    "Compare RAG and fine-tuning"
+)
+
+The returned result contains the final report and metadata about the pipeline run.
+
+### Local Setup
 
 ```bash
 uv sync
-cp .env.example .env   # open .env and paste your OPENROUTER_API_KEY
+cp .env.example .env
 uv run jupyter lab research_agent.ipynb
-```
-
-## How to submit
-
-1. **Fork** this repository (Fork button, top-right on GitHub).
-2. **Clone your fork**, open the notebook, and finish the three TODOs.
-3. **Commit and push** your work to your fork:
-   ```bash
-   git add research_agent.ipynb README.md
-   git commit -m "Finish research agent project"
-   git push
-   ```
-   Never commit your `.env` file — it holds your API key (it is already in `.gitignore`).
-4. **Tag the academy** so we can find your submission: edit the bottom of your fork's `README.md`, add this line, then commit and push again:
-   ```markdown
-   Submitted by: <your name> — academy: @SDAIAAcademy
-   ```
-5. Your submission is complete when your fork's last commit contains your finished `research_agent.ipynb` and the README line above. Grading follows `EVALUATION.md`.
-
 ## Structure
 
+## Notebook Structure
+
+| Section | Purpose |
+| --- | --- |
+| Setup | Model configuration, API key, and dependencies |
+| Observability | Tracing utilities and loop detection |
+| Research Tools | Web search, webpage reading, and URL validation |
+| Shared Runner | Common agent execution and trace handling |
+| Prompts | Instructions for each research stage |
+| Agents | Researcher, analyst, and writer |
+| Pipeline | LangGraph state, routing, retries, and checkpointing |
+| Checks | Running the pipeline and inspecting the returned results |
+| Challenges | Examples for loop detection and agent memory |
 ```
-project_starter/
-├── research_agent.ipynb   # the whole project (helpers given, 3 TODOs inside)
+Project Files/
+├── research_agent.ipynb   # Main project notebook
 ├── EVALUATION.md          # Grading rubric for the project
 ├── pyproject.toml         # Dependencies (for local runs)
 ├── .env.example           # Environment variable template (local runs)
 ├── .gitignore             # Keeps .env and local caches out of git
 └── uv.lock                # Locked dependency versions
 ```
-
+Never commit .env because it contains the OpenRouter API key.
 ## Quick reference
 
 ```bash
