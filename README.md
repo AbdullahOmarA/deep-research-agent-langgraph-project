@@ -125,7 +125,8 @@ uv run jupyter lab research_agent.ipynb
 ```
 ## Structure
 
-```text
+```
+
 Project Files/
 ├── research_agent.ipynb   # Main project notebook
 ├── EVALUATION.md          # Grading rubric for the project
@@ -134,6 +135,7 @@ Project Files/
 ├── .gitignore             # Keeps .env and local caches out of git
 └── uv.lock                # Locked dependency versions
 Never commit .env because it contains the OpenRouter API key.
+```
 ## Quick reference
 
 ```bash
