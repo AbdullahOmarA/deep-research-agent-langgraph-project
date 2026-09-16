@@ -123,6 +123,8 @@ uv run jupyter lab research_agent.ipynb
 | Checks | Running the pipeline and inspecting the returned results |
 | Challenges | Examples for loop detection and agent memory |
 ```
+## Structure
+
 Project Files/
 ├── research_agent.ipynb   # Main project notebook
 ├── EVALUATION.md          # Grading rubric for the project
