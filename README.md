@@ -144,8 +144,5 @@ Never commit .env because it contains the OpenRouter API key.
 uv sync                                  # install dependencies
 uv run jupyter lab research_agent.ipynb  # open the project
 ```
-```
-```
-```markdown
-   Submitted by: <your name> — academy: @SDAIAAcademy
-   ```
+Submitted by: Abdullah AlTurki — academy: [@SDAIAAcademy](https://github.com/SDAIAAcademy)
+
