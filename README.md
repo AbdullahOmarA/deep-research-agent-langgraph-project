@@ -133,7 +133,7 @@ project_starter/
 ├── .env.example           # Environment variable template (local runs)
 ├── .gitignore             # Keeps .env and local caches out of git
 └── uv.lock                # Locked dependency versions
-
+```
 
 Never commit .env because it contains the OpenRouter API key.
 
