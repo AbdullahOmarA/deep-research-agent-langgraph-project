@@ -98,7 +98,7 @@ To test another question, change the query passed to `run_pipeline()`:
 pipeline_result = await run_pipeline(
     "Compare RAG and fine-tuning"
 )
-
+```
 The returned result contains the final report and metadata about the pipeline run.
 
 ### Local Setup
